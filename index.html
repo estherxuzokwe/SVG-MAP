@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<title>ECS416U Miniproject 1</title>
+	<style>
+		/* this css could be moved to an external .css file */
+		body {
+			font-family: sans-serif;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		#map {
+			border: 1px solid black;
+		}
+
+		#description {
+			width: 640px;
+		}
+
+		#summary {
+			width: 640px;
+		}
+	</style>
+</head>
+
+<body>
+	<h2>Miniproject 1</h2>
+	<h1>Interactive Campus Map</h1>
+
+	<svg id="map" width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"
+		xmlns:xlink="http://www.w3.org/1999/xlink">
+		<!-- this svg could be moved to an external svg document -->
+		<g class="layer" id="map-base">
+			<title></title>
+			<image width="640" height="435" opacity="0.2" href="map.png" />
+		</g>
+		<g class="layer" id="map-mile-end-road">
+			<title>Mile End Road</title>
+			<desc>Mile End Road: Description text</desc>
+			<path fill-opacity="0.3" stroke="black" stroke-width="0" d="m0,362l0,17l640,0l0,-17l-640,0z" />
+			<text x="160" y="400" font-size="18" visibility="hidden">Mile End Road</text>
+		</g>
+		<g class="layer" id="map-bancroft-road">
+			<title>Bancroft Road</title>
+			<desc>Bancroft Road: Description text</desc>
+			<path fill-opacity="0.3" stroke="black" stroke-width="0"
+				d="m0,11.5l205,0c6.93333,-0.26667 11.76667,4.06667 11.5,11.5l0,332c0.16667,4.53333 3.43333,6.96667 5,7l-21.5,0c2.16667,-0.33333 5.03333,-3.76667 5,-7l0,-327c0.13333,-1.96667 -2.33333,-4.93333 -5,-5l-200,0l0,-11.5z" />
+			<text x="220" y="140" font-size="18" visibility="hidden">Bancroft Road</text>
+		</g>
+		<g class="layer" id="map-godward-square">
+			<title>Godward Square</title>
+			<desc>Godward Square: Description text</desc>
+			<path fill-opacity="0.3" stroke="black" stroke-width="0"
+				d="m173,279.5l0,10l11.5,0l0,21.5l-41.5,0l0,-31.5l30,0z" />
+			<text x="190" y="300" font-size="18" visibility="hidden">Godward Square</text>
+		</g>
+		<g class="layer" id="map-informatics-teaching-laboratories">
+			<title>Informatics Teaching Laboratories</title>
+			<desc>Informatics Teaching Laboratories: Description text</desc>
+			<path fill-opacity="0.3" stroke="black" stroke-width="0" d="m143,291l0,31.5l-21,0l0,-31.5l21,0z" />
+			<text x="130" y="280" font-size="18" visibility="hidden">Informatics Teaching Laboratories</text>
+		</g>
+		<g class="layer" id="map-computer-science-building">
+			<title>Peter Landin Building (Computer Science)</title>
+			<desc>Peter Landin Building (Computer Science): Description text</desc>
+			<path fill-opacity="0.3" stroke="black" stroke-width="0"
+				d="m122,259l30.5,0l0,20.5l-4,0l0,2l4,0l4,6.5l-12,0l0,-8.5l-2,0l0,8.5l-20.5,0l0,-29z" />
+			<text x="130" y="250" font-size="18" visibility="hidden">Peter Landin Building (Computer
+				Science)</text>
+		</g>
+		<g class="layer" id="map-engineering-building">
+			<title>Engineering Building</title>
+			<desc>Engineering Building: Description text</desc>
+			<path fill-opacity="0.3" stroke="black" stroke-width="0"
+				d="m164,315.5l36.5,0l0,31.5l21,0l0,-51.5l32,0l0,43.5l21,0l0,12.5l-21,0l0,3l-89.5,0l0,-39z" />
+			<text x="230" y="290" font-size="18" visibility="hidden">Engineering Building</text>
+		</g>
+		<g class="layer" id="map-peoples-palace">
+			<title>The People's Palace/Great Hall</title>
+			<desc>The People's Palace/Great Hall: Description text</desc>
+			<path fill-opacity="0.3" stroke="black" stroke-width="0"
+				d="m274.5,295l22.5,0l0,11l4.5,0l0,48.5l-27,0l0,-59.5z" />
+			<text x="305" y="330" font-size="18" visibility="hidden">The People's Palace/Great Hall</text>
+		</g>
+		<g class="layer">
+			<text x="10" y="453" font-size="16">Queen Mary</text>
+			<text x="10" y="470" font-size="16">Mile End Campus</text>
+			<text x="190" y="453" font-size="12">Mile End Road, Bancroft Road, Godward Square, the ITL,</text>
+			<text x="190" y="470" font-size="12">Computer Science, Engineering buildings, and the People’s Palace</text>
+		</g>
+	</svg>
+
+	<p>Click a building for it's description.</p>
+	<p id="description"></p>
+
+	<h2>Summary</h2>
+	<ul id="summary">
+		<li>All the different location SVG elements are grouped together, including the actual area itself, a label for
+			it, the title text for the area and the description text.</li>
+		<li>By default the locations have a semi-transparent black fill.</li>
+		<li>When moving the mosue over the location, the fill opacity is set to 0 and the stroke width is increased to
+			2. Also the location name appears near it. The location name is in an SVG &lt;text&gt; tag, and its
+			visibility is toggled when the mouse enters and leaves.</li>
+		<li>When you click inside a location, its description is displayed in a paragraph element underneath the map
+			area, by changing the content of the description &lt;p&gt; tag.</li>
+	</ul>
+
+	<script>
+		// this script can be moved to an external .js file
+		// select the entire svg
+		let map = document.querySelector('#map');
+
+		// select the description paragraph element
+		let description = document.querySelector('#description');
+
+		// select the individual svg groups for each location
+		let location_me = document.querySelector('#map-mile-end-road');
+		let location_bc = document.querySelector('#map-bancroft-road');
+		let location_gs = document.querySelector('#map-godward-square');
+		let location_it = document.querySelector('#map-informatics-teaching-laboratories');
+		let location_cs = document.querySelector('#map-computer-science-building');
+		let location_en = document.querySelector('#map-engineering-building');
+		let location_pp = document.querySelector('#map-peoples-palace');
+
+		// add them to an array
+		let locations = [location_me, location_bc, location_gs, location_it, location_cs, location_en, location_pp];
+
+		// loop through each location group
+		for (let location of locations) {
+			// select individual svg elements inside the group
+			let locationTitle = location.querySelector('title');
+			let locationDesc = location.querySelector('desc');
+			let locationPath = location.querySelector('path');
+			let locationText = location.querySelector('text');
+
+			// add a mouseover listener only to the path
+			locationPath.addEventListener(
+				'mouseover',
+				event => {
+					// make path opacity 0
+					locationPath.setAttribute('fill-opacity', '0');
+					// make path stroke visible
+					locationPath.setAttribute('stroke-width', '2');
+					// make label visible
+					locationText.setAttribute('visibility', 'visible');
+				}
+			);
+
+			// add a mouseover listener only to the path
+			locationPath.addEventListener(
+				'mouseout',
+				event => {
+					// make path opacity 0.2
+					locationPath.setAttribute('fill-opacity', '0.2');
+					// make path stroke invisible
+					locationPath.setAttribute('stroke-width', '0');
+					// make location text hidden
+					locationText.setAttribute('visibility', 'hidden');
+				}
+			);
+
+			// add a click listener only to the path
+			locationPath.addEventListener(
+				'click',
+				event => {
+					// update the description paragraph with the description of this location
+					description.innerHTML = locationDesc.innerHTML;
+				}
+			);
+		}
+
+	</script>
+</body>
+
+</html>
